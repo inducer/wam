@@ -1,0 +1,11 @@
+addFunctionHelp("bindMessage","bind key_descr to message");
+function bindMessage(key_descr,message) {
+
+  function onPress() {
+    wam.msg_send("+"+message);
+    }
+  function onRelease() {
+    wam.msg_send("-"+message);
+    }
+  wam.bind(key_descr,onPress,onRelease);
+  }

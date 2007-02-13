@@ -1,0 +1,25 @@
+addFunctionHelp("getGamejectByFeature","get all gamejects having feature_set");
+function getGamejectByFeatureSet(feature_set) {
+  var result = new Array();
+  for (var id in wam.list_gamejects()) 
+    if (wam.im_hasfeatures(id,feature_set))
+      result.push(id);
+  return result;
+  }
+
+
+
+
+addFunctionHelp("killGamejectByFeatureSet","kill all gamejects having feature_set");
+function killGamejectByFeatureSet(feature_set) {
+  for (var id in getGamejectByFeatureSet(feature_set)) 
+    wam.im_kill(id);
+  }
+
+
+
+addFunctionHelp("ensureGamejectExistence","ensure the existence of at least one gameject with features");
+function ensureGamejectExistence(features) {
+  if (getGamejectByFeatureSet(features).length == 0);
+    wam.im_create(features);
+  }

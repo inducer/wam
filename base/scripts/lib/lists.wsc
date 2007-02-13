@@ -1,0 +1,138 @@
+// helpers --------------------------------------------------------------------
+function formatGamejectList(description,list) {
+  var echo = wam.echo;
+  echo("--------------------------------------------------------------");
+  echo("gameject instance list: "+description);
+  echo("--------------------------------------------------------------");
+  for (var gj in list) {
+    echo(gj.toString()+": "+wam.im_getfeatures(gj));
+    }
+  }
+
+
+
+
+function formatStringList(description,list) {
+  var echo = wam.echo;
+  echo("--------------------------------------------------------------");
+  echo(description);
+  echo("--------------------------------------------------------------");
+  var i = 0;
+  for (var str in list) {
+    echo(i++.toString()+": "+str);
+    }
+  }
+
+
+
+
+function formatAudioList() {
+  var echo = wam.echo;
+  echo("--------------------------------------------------------------");
+  echo("list of audio streams");
+  echo("--------------------------------------------------------------");
+  for (var key in wam.list_audio_streams()) {
+    echo("["+key.toString()+"] "+wam.audio_describe(key)
+      +" vol "+wam.audio_getvolume(key).toString()
+      +" pan "+wam.audio_getpanning(key).toString());
+    }
+  }
+
+
+
+
+function formatBindList() {
+  var echo = wam.echo;
+  echo("--------------------------------------------------------------");
+  echo("list of keyboard bindings");
+  echo("--------------------------------------------------------------");
+  for (var key in wam.list_bindings()) {
+    echo("["+key+"]");
+    }
+  }
+
+
+
+
+// public functions -----------------------------------------------------------
+addFunctionHelp("list","obtain lists",
+  "get nicely formatted lists of things in game, list('help') for more");
+function list(what) {
+  var echo = wam.echo;
+
+  // gamejects ----------------------------------------------------------------
+  if (what == "gamejects") 
+  {
+    formatGamejectList("all",wam.list_gamejects());
+    return;
+  }
+  if (what == "tick") 
+  {
+    formatGamejectList("registered to tick manager",wam.list_tick_receivers());
+    return;
+  }
+  if (what == "drawable") 
+  {
+    formatGamejectList("registered to drawable manager",wam.list_drawables());
+    return;
+  }
+  if (what == "keyboard_in") 
+  {
+    formatGamejectList("registered for keyboard input",wam.list_keyboard_listeners());
+    return;
+  }
+  if (what == "mouse_in") 
+  {
+    formatGamejectList("registered for mouse input",wam.list_mouse_listeners());
+    return;
+  }
+  if (what == "collision") 
+  {
+    formatGamejectList("registered for collision management",wam.list_collidables());
+    return;
+  }
+
+  // resources ----------------------------------------------------------------
+  if (what == "image") {
+    formatStringList("images registered to image manager",wam.list_res_images());
+    return;
+    }
+  if (what == "font") {
+    formatStringList("fonts registered to font manager",wam.list_res_fonts());
+    return;
+    }
+  if (what == "shape") {
+    formatStringList("images registered to shape manager",wam.list_res_shapebitmaps());
+    return;
+    }
+  if (what == "sound") {
+    formatStringList("sounds registered to sound resource manager",wam.list_res_sounds());
+    return;
+    }
+
+  // other --------------------------------------------------------------------
+  if (what == "class") 
+  {
+    formatStringList("classes with featuresets registered",wam.list_classes());
+    return;
+  }
+  if (what == "audio") 
+  {
+    formatAudioList();
+    return;
+  }
+  if (what == "message") 
+  {
+    formatStringList("message ids",wam.list_message_ids());
+    return;
+    }
+  if (what == "bindings") 
+  {
+    formatBindList();
+    return;
+  }
+  echo("available lists: help");
+  echo("gamejects: gamejects,tick,drawable,keyboard_in,mouse_in,collision");
+  echo("resources: image,font,shape,sound");
+  echo("other: class,audio,message,bindings");
+  }

@@ -1,0 +1,172 @@
+<animation>
+  <!--
+    parameters used:
+    
+    state: stand,walk,jump,fly,land,die
+    direction: 00,01,02,03,... 20, as if the clock had 20 hours
+    weapon: none,bazooka
+    model: mole
+
+    emitted signals:
+    die: tell the model to actually die
+    jump: prejump animation finished
+    -->
+  <images>
+    <image name="bazooka-d05" src="mole_bazooka_look_05.png" scale_x="-1"/>
+    <image name="bazooka-d03" src="mole_bazooka_look_03.png" scale_x="-1"/>
+    <image name="bazooka-d01" src="mole_bazooka_look_01.png" scale_x="-1"/>
+    <image name="bazooka-d15" src="mole_bazooka_look_05.png"/>
+    <image name="bazooka-d17" src="mole_bazooka_look_03.png"/>
+    <image name="bazooka-d19" src="mole_bazooka_look_01.png"/>
+
+    <!-- walking images ------------------------------------------------------>
+    <image name="bazooka-d05-walk00" src="mole_bazooka_walk00_05.png" scale_x="-1"/>
+    <image name="bazooka-d15-walk00" src="mole_bazooka_walk00_05.png"/>
+
+    <!-- dying images -------------------------------------------------------->
+    <image name="bazooka-d05-die00" src="mole_bazooka_walk00_05.png" scale_x="-0.9" scale_y="-1"/>
+    <image name="bazooka-d05-die01" src="mole_bazooka_walk00_05.png" scale_x="-0.8" scale_y="-0.9"/>
+    <image name="bazooka-d05-die02" src="mole_bazooka_walk00_05.png" scale_x="-0.7" scale_y="-0.8"/>
+    <image name="bazooka-d05-die03" src="mole_bazooka_walk00_05.png" scale_x="-0.6" scale_y="-0.7"/>
+    <image name="bazooka-d05-die04" src="mole_bazooka_walk00_05.png" scale_x="-0.5" scale_y="-0.6"/>
+    <image name="bazooka-d05-die05" src="mole_bazooka_walk00_05.png" scale_x="-0.4" scale_y="-0.4"/>
+    <image name="bazooka-d05-die06" src="mole_bazooka_walk00_05.png" scale_x="-0.3" scale_y="-0.3"/>
+    <image name="bazooka-d05-die07" src="mole_bazooka_walk00_05.png" scale_x="-0.2" scale_y="-0.2"/>
+    <image name="bazooka-d05-die08" src="mole_bazooka_walk00_05.png" scale_x="-0.1" scale_y="-0.1"/>
+
+    <image name="bazooka-d15-die00" src="mole_bazooka_walk00_05.png" scale_x="0.9" scale_y="-1"/>
+    <image name="bazooka-d15-die01" src="mole_bazooka_walk00_05.png" scale_x="0.8" scale_y="-0.9"/>
+    <image name="bazooka-d15-die02" src="mole_bazooka_walk00_05.png" scale_x="0.7" scale_y="-0.8"/>
+    <image name="bazooka-d15-die03" src="mole_bazooka_walk00_05.png" scale_x="0.6" scale_y="-0.7"/>
+    <image name="bazooka-d15-die04" src="mole_bazooka_walk00_05.png" scale_x="0.5" scale_y="-0.6"/>
+    <image name="bazooka-d15-die05" src="mole_bazooka_walk00_05.png" scale_x="0.4" scale_y="-0.4"/>
+    <image name="bazooka-d15-die06" src="mole_bazooka_walk00_05.png" scale_x="0.3" scale_y="-0.3"/>
+    <image name="bazooka-d15-die07" src="mole_bazooka_walk00_05.png" scale_x="0.2" scale_y="-0.2"/>
+    <image name="bazooka-d15-die08" src="mole_bazooka_walk00_05.png" scale_x="0.1" scale_y="-0.1"/>
+
+    <!-- crouched images ----------------------------------------------------->
+    <image name="bazooka-d05-crouch-1" src="mole_bazooka_look_05.png" scale_x="-1" scale_y="0.9"/>
+    <image name="bazooka-d05-crouch-2" src="mole_bazooka_look_05.png" scale_x="-1" scale_y="0.85"/>
+    <image name="bazooka-d15-crouch-1" src="mole_bazooka_look_05.png" scale_y="0.9"/>
+    <image name="bazooka-d15-crouch-2" src="mole_bazooka_look_05.png" scale_y="0.85"/>
+  </images>
+  
+  <regexes>
+    <!-- normalize directions ------------------------------------------------>
+    <regex original="d0[0-1]" replacement="d01"/>
+    <regex original="d0[2-3]" replacement="d03"/>
+    <regex original="d0[4-9]" replacement="d05"/>
+    <regex original="d1[0-5]" replacement="d15"/>
+    <regex original="d1[6-7]" replacement="d17"/>
+    <regex original="d1[8-9]" replacement="d19"/>
+
+    <!-- jump ---------------------------------------------------------------->
+    <regex original="d0.-prejump" replacement="d05-crouch"/>
+    <regex original="d1.-prejump" replacement="d15-crouch"/>
+    <regex original="d0.-jump" replacement="d01"/>
+    <regex original="d1.-jump" replacement="d19"/>
+
+    <!-- land ---------------------------------------------------------------->
+    <regex original="d0.-land" replacement="d05-crouch"/>
+    <regex original="d1.-land" replacement="d15-crouch"/>
+
+    <!-- walk ---------------------------------------------------------------->
+    <regex original="d0.-walk" replacement="d05-walk"/>
+    <regex original="d1.-walk" replacement="d15-walk"/>
+
+    <!-- die ----------------------------------------------------------------->
+    <regex original="d0.-die" replacement="d05-die"/>
+    <regex original="d1.-die" replacement="d15-die"/>
+  </regexes>
+  
+  <script>
+    <!-- direction set handler ----------------------------------------------->
+    <on parameter="direction" will_return>
+      <return kill_delay/>
+    </on>
+
+    <!-- death handler ------------------------------------------------------->
+    <on parameter="state" new="die" priority="100">
+      <frame name="$(weapon)-d$(direction)-die00"/>
+      <delay time="3"/>
+      <frame name="$(weapon)-d$(direction)-die00"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die01"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die02"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die03"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die04"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die05"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die06"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die07"/>
+      <delay time="0.05"/>
+      <frame name="$(weapon)-d$(direction)-die08"/>
+      <delay time="0.05"/>
+      <signal name="die"/>
+      <stop/>
+    </on>
+    <!-- land handler -------------------------------------------------------->
+    <on parameter="state" new="land" will_return priority="5">
+      <frame name="$(weapon)-d$(direction)-land-1"/>
+      <delay time="0.03"/>
+      <frame name="$(weapon)-d$(direction)-land-2"/>
+      <delay time="0.03"/>
+      <frame name="$(weapon)-d$(direction)-land-1"/>
+      <delay time="0.03"/>
+      <return kill_delay/>
+    </on>
+
+    <!-- prejump handler ----------------------------------------------------->
+    <on parameter="state" new="prejump">
+      <frame name="$(weapon)-d$(direction)-prejump-1"/>
+      <delay time="0.03"/>
+      <label name="prejump_loop"/>
+      <frame name="$(weapon)-d$(direction)-prejump-2"/>
+      <delay time="10"/>
+      <goto target="prejump_loop"/>
+    </on>
+      
+    <!-- jump handler -------------------------------------------------------->
+    <on parameter="state" will_return new="jump" priority="10">
+      <frame name="$(weapon)-d$(direction)-prejump-1"/>
+      <delay time="0.03"/>
+      
+      <signal name="jump"/>
+      
+      <priority value="5"/>
+      <frame name="$(weapon)-d$(direction)-jump"/>
+      <delay time="0.4"/>
+      
+      <return kill_delay/>
+    </on>
+
+    <!-- walk handler -------------------------------------------------------->
+    <on parameter="state" new="walk">
+      <label name="walk_loop"/>
+      <frame name="$(weapon)-d$(direction)"/>
+      <delay time="0.15"/>
+      <frame name="$(weapon)-d$(direction)-walk00"/>
+      <delay time="0.15"/>
+      <goto target="walk_loop"/>
+    </on>
+
+    <!-- main handler -------------------------------------------------------->
+    <on parameter="state" new="stand">
+      <goto target="main_loop"/>
+    </on>
+
+    <on parameter="state" new="fly">
+      <goto target="main_loop"/>
+    </on>
+    
+    <label name="main_loop"/>
+    <frame name="$(weapon)-d$(direction)"/>
+    <delay time="10"/>
+    <goto target="main_loop"/>
+  </script>
+</animation>

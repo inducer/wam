@@ -1,0 +1,20 @@
+suggested configure line for UNIX systems:
+
+./configure \
+  --enable-debug \
+  --disable-static \
+  --enable-dl
+
+suggested configure line for UNIX systems without dynamic linking:
+
+./configure \
+  --enable-debug \
+  --disable-shared 
+
+suggested configure line for Win32 systems:
+
+./configure --host=i386-mingw32msvc
+
+Nomenclature:
+
+those are not "BITMAPS", those are "IMAGES".

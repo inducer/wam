@@ -1,0 +1,40 @@
+var QuitSequenceInitiated = false,
+    QuitHooks = new Array();
+
+
+
+
+addFunctionHelp("quit","call quit hooks,leave wam");
+function quit() {
+  if (QuitSequenceInitiated) {
+    wam.printdebug("emergency quit");
+    wam.game_quit();
+    return;
+    }
+  QuitSequenceInitiated = true;
+
+  var time_to_quit = 0;
+  
+  for (var hook in QuitHooks) {
+    var new_ttq = hook();
+    if (new_ttq > time_to_quit) 
+      time_to_quit = new_ttq;
+    }
+
+  if (time_to_quit != 0) {
+    wam.printdebug("quit sequence initiated");
+    wam.timeout(time_to_quit,wam.game_quit);
+    }
+  else {
+    wam.printdebug("quitting");
+    wam.game_quit();
+    }
+  }
+
+
+
+
+addFunctionHelp("addQuitHook","add quit hook");
+function addQuitHook(hook) {
+  QuitHooks.push(hook);
+  }

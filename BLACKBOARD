@@ -1,0 +1,47 @@
+clean missionpack removal
+maybe improve if statement in animator to be more flexible
+
+orthogonal polygon messing
+
+js persistence
+
+fonts directory -> CVS
+shooting
+  rockets
+    sound
+    fine-tune rocket flight
+    enable different power levels
+allow picking the weapon
+ammo manager
+more weapons
+  homing missile
+  cluster bomb
+  hand grenade
+flex patch, again
+prevent "falling through" due to large seconds value
+jumping against rockets/trymove only files collision once
+odd flight behavior of hero
+js menu for game creation
+heroes die when they go out of bounds
+heroes can die
+reliably prevent "just bouncing syndrome", where it looks like State == WALK,
+  but really State == FLY.
+  
+net for hero and rocket
+
+-------------------------------------------------------------------------------
+1. establish server connection
+
+  if "be controller", establish game type
+  allow net connection
+  deathmatch/round-based
+  precalc landscape
+  game password
+
+2. establish supervisor connection, pregame
+
+3. establish supervisor connection
+join as one player
+join as one team
+
+4. play

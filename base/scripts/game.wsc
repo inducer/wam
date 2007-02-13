@@ -1,0 +1,171 @@
+// game utility functions -----------------------------------------------------
+function bindGameKeys() 
+{
+  resetBindings();
+  function createHero() { wam.im_create("Hero"); }
+  function killHero() { killGamejectByFeatureSet("Hero"); }
+  function pause() { wam.game_pause(!wam.game_pause()); }
+  function dumpCollisionBitmap() { wam.dump_collision_bitmap("collisionbitmap.png"); }
+  function cycleFocus() { wam.msg_send( "wam/cycle_focus" ); }
+  
+  wam.bind( "insert", createHero );
+  wam.bind( "delete", killHero );
+  wam.bind( "pause", pause);
+  wam.bind( "p", pause);
+  wam.bind( "f2", dumpCollisionBitmap);
+  wam.bind( "escape", startInGameMenu);
+  wam.bind( "tab", cycleFocus );
+
+  bindMessage( "left", "left" );
+  bindMessage( "right", "right" );
+  bindMessage( "up", "up" );
+  bindMessage( "down", "down" );
+  bindMessage( "space", "fire" );
+  bindMessage( "rctrl", "jump" );
+  bindMessage( "lctrl", "jump" );
+}
+
+
+
+
+// game -----------------------------------------------------------------------
+function createGameEnvironment() {
+  killGamejectByFeatureSet("Back");
+
+  Music.repeatOne("6ext.xm");
+
+  bindGameKeys();
+  wam.im_create("Mngr,SclM");
+  wam.im_commit();
+  
+  wam.im_create("Prlx");
+  wam.im_commit();
+  
+  wam.im_create("EnvM");
+  wam.im_create("MScl");
+  wam.im_create("PauM");
+  wam.im_commit();
+
+  wam.im_create("Bazo");
+  }
+
+function startGame() {
+  createGameEnvironment();
+  
+  // wam.im_create("Hero");
+  
+  wam.em_genlandscape("two_islands.land");
+  wam.em_gravity(400);
+  wam.em_wind(20);
+  }
+
+function endGame() {
+  resetBindings();
+  killGamejectByFeatureSet("MScl");
+  killGamejectByFeatureSet("Hero");
+  killGamejectByFeatureSet("EnvM");
+  killGamejectByFeatureSet("Prlx");
+  killGamejectByFeatureSet("Weap");
+  killGamejectByFeatureSet("SclM");
+  killGamejectByFeatureSet("PauM");
+  wam.im_commit();
+  }
+
+function startInGameMenu() {
+  resetBindings();
+  
+  var menu = new wMenu();
+  
+  function end_menu() {
+    menu.end();
+    bindGameKeys();
+    }
+  function end_game() {
+    menu.end();
+    endGame();
+    startMainMenu();
+    }
+
+  wam.bind("escape",end_menu);
+
+  menu.addButton("Leave game",end_game);
+  menu.addButton("Continue",end_menu);
+  menu.complete();
+  }
+
+
+
+/*
+// multiplayer backend --------------------------------------------------------
+function connect(hostname) {
+  var result = wam.failsafe("wam.net_connect('wam://"+hostname+"');");
+  if (result[0]) {
+    createGameEnvironment();
+    }
+  else {
+    messageBox("Couldn't connect:\n"+result[1],"startMultiPlayerGameMenu();");
+    }
+  }
+
+// server 
+function startServer() {
+  var result = wam.failsafe("wam.net_startmaster();");
+  if (result[0]) {
+    waitForConnection();
+    }
+  else {
+    messageBox("Couldn't start server:\n"+result[1],"startMultiPlayerGameMenu();");
+    }
+  }
+
+function waitForConnection() {
+  CurrentMenu = new wMenu();
+  CurrentMenu.addText("Waiting for first connection...");
+  CurrentMenu.addSpacer(10);
+  CurrentMenu.addButton("Cancel","wam.im_kill(CurrentCnxTimeout);CurrentMenu.end();wam.net_stopmaster();startMultiPlayerGameMenu();");
+  CurrentMenu.complete();
+
+  ConnectionTimeout();
+  }
+
+function ConnectionTimeout() {
+  if (wam.net_getconnectioncount() > 0) {
+    CurrentMenu.end();
+    gotConnection();
+    }
+  else 
+    CurrentCnxTimeout = wam.timeout(0.2,"ConnectionTimeout();");
+  }
+
+function gotConnection() {
+  startGame();
+  }
+
+
+
+
+// multiplayer ui -------------------------------------------------------------
+var HostInput,CurrentCnxTimeout;
+function startMultiPlayerGameMenu() {
+  wam.bind("escape","endMultiPlayerGameMenu();startMainMenu();");
+
+  CurrentMenu = new wMenu();
+  CurrentMenu.addImage("menu_multi.png");
+  CurrentMenu.addSpacer(10);
+  CurrentMenu.addButton("Start server","endMultiPlayerGameMenu();startServer();");
+  CurrentMenu.addSpacer(10);
+  HostInput = CurrentMenu.addInput("Host: ","");
+  CurrentMenu.addButton("Connect","{var hn = HostInput.get();endMultiPlayerGameMenu();connect(hn);}");
+  CurrentMenu.addSpacer(10);
+  CurrentMenu.addButton("Back to Main Menu","endMultiPlayerGameMenu();startMainMenu();");
+  CurrentMenu.complete();
+  }
+
+function endMultiPlayerGameMenu() {
+  resetBindings();
+  CurrentMenu.end();
+  }
+
+
+
+*/

@@ -1,0 +1,94 @@
+class wHelpText {
+  var Name,Parameters,Short,Text;
+  
+  constructor function wHelpText(name,short,text) 
+  {
+    if (text == null) 
+      text = short;
+
+    Name = name;
+    Short = short;
+    Text = text;
+  }
+  function shortHelp() 
+  {
+    return Name+": "+Short;
+  }
+  function longHelp() 
+  {
+    var fun = failSilently("eval('"+Name+";');");
+    if (fun == null)
+      return Name+"\n"+Text;
+    else
+      return Name+" "+wam.stringify(fun)+"\n"+Text;
+  }
+}
+
+
+
+
+var 
+  HelpFunctionHelpTexts = new Array(),
+  HelpClassHelpTexts = new Array(),
+  HelpObjectHelpTexts = new Array();
+
+
+
+
+function addFunctionHelp(name,short,text) {
+  HelpFunctionHelpTexts.push(new wHelpText(name,short,text));
+  }
+
+
+
+
+function addClassHelp(name,short,text) {
+  HelpClassHelpTexts.push(new wHelpText(name,short,text));
+  }
+
+
+
+
+function addObjectHelp(name,short,text) {
+  HelpObjectHelpTexts.push(new wHelpText(name,short,text));
+  }
+
+
+
+
+addFunctionHelp("help","get help");
+function help(name) 
+{
+  var echo = wam.echo;
+  if (name == null) 
+  {
+    echo("classes:");
+    for (var i in HelpClassHelpTexts)
+      echo("  "+i.shortHelp());
+    echo("objects:");
+    for (var i in HelpObjectHelpTexts)
+      echo("  "+i.shortHelp());
+    echo("functions:");
+    for (var i in HelpFunctionHelpTexts)
+      echo("  "+i.shortHelp());
+    echo("help(\"system\") to show engine help");
+    return;
+  }
+  if (name == "system") 
+  {
+    wam.help();
+    return;
+  }
+  for (var ht_list in new Array(HelpFunctionHelpTexts,HelpClassHelpTexts,HelpObjectHelpTexts)) 
+  {
+    for (var i in ht_list) 
+    {
+      if (name == i.Name) 
+      {
+	echo(i.longHelp());
+	return;
+      }
+    }
+  }
+  wam.help(name);
+}

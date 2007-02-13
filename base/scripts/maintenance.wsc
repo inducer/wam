@@ -1,0 +1,25 @@
+function maintainToolGamejects() {
+  ensureGamejectExistence("MPtr");
+  ensureGamejectExistence("FpsD");
+  }
+
+// bindings -------------------------------------------------------------------
+function resetBindings() {
+  function toggle_console() {
+    wam.console_enable(!wam.console_enable());
+    }
+  function console_up() {
+    wam.msg_send('console_up');
+    }
+  function console_down() {
+    wam.msg_send('console_down');
+    }
+
+  wam.bind_clear();
+  wam.bind("lctrl q",		wam.game_quit);
+  wam.bind("f1",		help);
+  wam.bind("f12",		toggle_console);
+  wam.bind("pageup",		console_up);
+  wam.bind("pagedown",		console_down);
+  }
+

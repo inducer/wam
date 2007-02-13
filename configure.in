@@ -1,0 +1,84 @@
+# -----------------------------------------------------------------------------
+# Initialize everything
+# -----------------------------------------------------------------------------
+
+AC_PREREQ(2.50)
+AC_INIT(main/wam.cc)
+
+wam_major_version=0
+wam_minor_version=10
+
+AM_INIT_AUTOMAKE(wam,$wam_major_version.$wam_minor_version)
+
+AC_DEFINE_UNQUOTED(WAM_MAJOR_VERSION,$wam_major_version,[Major version.])
+AC_DEFINE_UNQUOTED(WAM_MINOR_VERSION,$wam_minor_version,[Minor version.])
+
+# -----------------------------------------------------------------------------
+# Checks 
+# -----------------------------------------------------------------------------
+
+AC_ARG_ENABLE(debug,
+  [  --enable-debug          have debug info compiled in],
+  CXXFLAGS="-g -Wall"
+  AC_DEFINE(WAM_DEBUG,1,[Whether debug code should be compiled in.])
+  CFLAGS="-g")  
+
+AM_PROG_LIBTOOL
+AC_PROG_CC
+AC_PROG_CXX
+
+AM_PATH_SDL(1.2.0)
+AM_PATH_SDLUCID(0.90.0)
+AM_PATH_IXLIB(0.96.1)
+
+IX_CXX_SUPPORTS_BOOL
+
+# win32 -----------------------------------------------------------------------
+AC_SUBST(PLATFORM_LIBS)
+AC_MSG_CHECKING([whether this is a mingw environment])
+if test "x$host_os" = "xmingw32msvc"; then
+  win32=true
+  PLATFORM_LIBS="-lwsock32"
+  AC_MSG_RESULT(yes)
+else
+  win32=false
+  PLATFORM_LIBS=""
+  AC_MSG_RESULT(no)
+  fi
+AM_CONDITIONAL(WIN32,test x$win32 = xtrue)
+
+
+# dynamic linking -------------------------------------------------------------
+AC_MSG_CHECKING([whether dynamic linking should be enabled])
+AC_ARG_ENABLE(dl,
+[  --enable-dl        Turn on dynamic linking dependent parts],
+[case "${enableval}" in
+  yes) 
+    dynamic_linking=true 
+    AC_MSG_RESULT(yes)
+    ;;
+  no)  
+    dynamic_linking=false
+    AC_MSG_RESULT(no)
+    ;;
+  *) 
+    echo "bad value ${enableval} for --enable-dl"
+    exit 1
+    ;;
+esac],[
+  dynamic_linking=false
+  AC_MSG_RESULT(no)
+  ])
+AM_CONDITIONAL(HAVE_DYNAMIC_LINKING,test x$dynamic_linking = xtrue)
+if test x$dynamic_linking = xtrue; then
+  AC_DEFINE(HAVE_DYNAMIC_LINKING,,[Whether we want to use dynamic linking.])
+  fi
+
+# -----------------------------------------------------------------------------
+# Output
+# -----------------------------------------------------------------------------
+
+AM_CONFIG_HEADER(wam_config.hh)
+AC_OUTPUT([Makefile utility/Makefile output/Makefile 
+  engine/Makefile gamejects/Makefile main/Makefile game/Makefile wam],
+  [chmod a+x wam])

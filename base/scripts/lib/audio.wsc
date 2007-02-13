@@ -1,0 +1,275 @@
+class wAudioNotifier {
+  var Clients = new Array();
+
+  constructor function wAudioNotifier() {
+    if (wam.audio_isactive())
+      wam.audio_setnotification(handleNotification);
+    }
+    
+  function register(func) {
+    Clients.push(func);
+    }
+
+  function unregister(func) {
+    var i = 0;
+    for (var f in Clients) {
+      if (f == func) {
+        Clients.erase(i);
+	return;
+	}
+      i++;
+      }
+    }
+    
+  // private
+  function handleNotification(type,id) {
+    for (var f in Clients)
+      f(type,id);
+    }
+  }
+    
+
+
+
+
+var AudioNotifier = new wAudioNotifier();
+
+
+
+
+// stream management ----------------------------------------------------------
+addClassHelp("wAudioStream","manage an audio stream");
+class wAudioStream {
+  const PLAYING = 0;
+  const ENDED = 1;
+
+  const AudioFadeTick = 0.05;
+
+  var StreamId = -1;
+  var OnEnd = null;
+  var OnStop = null;
+
+  function fromExistingStream(stream_id) {
+    StreamId = stream_id;
+    registerWithNotifier();
+    }
+
+  function fromFile(filename) {
+    var dotpos = filename.lastIndexOf(".");
+    if (dotpos == -1) return;
+    var extension = filename.substring(dotpos+1,filename.length);
+    if (extension == "mp3") 
+      StreamId = wam.audio_playmp3(filename);
+    else if (extension == "it" || extension == "xm")
+      StreamId = wam.audio_playmod(filename);
+    else if (extension == "wav")
+      StreamId = wam.audio_playwav(filename);
+    else {
+      wam.printdebug("audio: unknown file type "+extension+": "+filename);
+      return;
+      }
+    registerWithNotifier();
+    }
+  
+  function state() {
+    if (StreamId < 0) return ENDED;
+    var list = wam.list_audio_streams();
+    for (var i in list)
+      if (i == StreamId) return PLAYING;
+    }
+  
+  function volume() {
+    if (state() == PLAYING)
+      return wam.audio_getvolume(StreamId);
+    else
+      return null;
+    }
+  
+  function setVolume(vol) {
+    if (state() == PLAYING) 
+      wam.audio_setvolume(StreamId,vol,panning());
+    }
+
+  function panning() {
+    if (state() == PLAYING)
+      return wam.audio_getpanning(StreamId);
+    else 
+      return null;
+    }
+
+  function setPanning(pan) {
+    if (state() == PLAYING) 
+      wam.audio_setvolume(StreamId,volume(),pan);
+    }
+
+  function kill() {
+    if (state() == PLAYING) 
+      wam.audio_kill(StreamId);
+    }
+  
+  function fadeIn(seconds,destvol) {
+    var step = destvol.toFloat()/(seconds/AudioFadeTick);
+    setVolume(0);
+    fadeHelper(step,destvol);
+    }
+
+  function fadeOut(seconds) {
+    var step = -volume()/(seconds/AudioFadeTick);
+    fadeHelper(step,0);
+    }
+
+  function connectOnEnd(func) {
+    OnEnd = func;
+    }
+  
+  function connectOnStop(func) {
+    OnStop = func;
+    }
+  
+  // private 
+  function fadeHelper(step,destvol) {
+    // almost feels functional :-)
+    
+    function fadeInner() {
+      if (state() != PLAYING) return;
+      var vol = volume();
+      vol += step;
+      if (step < 0 && vol < destvol || step > 0 && vol > destvol) {
+	if (destvol == 0) 
+	  kill();
+	else
+	  setVolume(destvol);
+	}
+      else {
+	setVolume(vol);
+	wam.timeout(AudioFadeTick,fadeInner);
+	}
+      }
+    wam.timeout(AudioFadeTick,fadeInner);
+    }
+
+  function registerWithNotifier() {
+    AudioNotifier.register(handleNotification);
+    }
+  
+  function handleNotification(type,id) {
+    if (id != StreamId) return;
+    if (type == "ENDED" && OnEnd != null) OnEnd();
+    if (type == "REMOVED" && OnStop != null) OnStop();
+    if (type == "ENDED" || type == "REMOVED") {
+      AudioNotifier.unregister(handleNotification);
+      StreamId = -1;
+      }
+    }
+  }
+
+
+
+
+// music management -----------------------------------------------------------
+addClassHelp("wMusic","handle in-game music");
+class wMusic {
+  var Stream;
+  var Volume = 1;
+  var PlayList = new Array();
+  var NextPlayListIndex = 0;
+ 
+  // public 
+  constructor function wMusic() {
+    Stream = new wAudioStream();
+    }
+
+  function playNext() {
+    if (isPlaying())
+      stop();
+    if (PlayList.length) {
+      if (NextPlayListIndex >= PlayList.length)
+        NextPlayListIndex = 0;
+      play(PlayList[NextPlayListIndex++]);
+      }
+    }
+
+  function stop() {
+    if (isPlaying())
+      Stream.kill();
+    }
+
+  function setVolume(volume) {
+    Volume = volume;
+    if (isPlaying()) 
+      Stream.setVolume(volume);
+    }
+
+  function volume() {
+    return Volume;
+    }
+
+  function addToPlayList(filename) {
+    PlayList.push(filename);
+    }
+
+  function clearPlayList() {
+    PlayList = new Array();
+    }
+
+  function isPlaying() {
+    return Stream.state() == Stream.PLAYING;
+    }
+
+  function repeatOne(title) {
+    if (PlayList[0] == title)
+      return;
+    clearPlayList();
+    addToPlayList(title);
+    playNext();
+    }
+    
+  // private
+  function play(filename) {
+    if (wam.audio_isactive()) {
+      Stream = new wAudioStream();
+      Stream.fromFile(filename);
+      Stream.setVolume(Volume);
+      Stream.connectOnEnd(playNext);
+      }
+    }
+  }
+
+
+
+
+addObjectHelp("Music","the in-game music handler");
+var Music = new wMusic();
+
+
+
+
+// internal tools -------------------------------------------------------------
+function audioQuit() {
+  var have_audio_streams = false;
+
+  if (wam.audio_isactive())
+    for (var key in wam.list_audio_streams()) {
+      var stream = new wAudioStream();
+      stream.fromExistingStream(key);
+      stream.fadeOut(1);
+      have_audio_streams = true;
+      }
+
+  if (have_audio_streams)
+    return 1.5;
+  else
+    return 0;
+  }
+addQuitHook(audioQuit);
+
+
+
+
+// public functions -----------------------------------------------------------
+addFunctionHelp("audioCrossFade","crossfade two audio streams");
+function audioCrossFade(stream_out,id_in,millisec,final_vol) {
+  stream_out.fadeIn(millisec,final_vol);
+  stream_in.fadeOut(id_out,seconds);
+  return stream_in;
+  }

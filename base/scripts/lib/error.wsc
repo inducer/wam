@@ -1,0 +1,22 @@
+function failNoisily(command) {
+  var result = wam.failsafe(command);
+  if (!result[0]) {
+    wam.printdebug("warning: "+command+" failed");
+    wam.printdebug("with error message: "+result[1]);
+    return;
+    }
+  else
+    return result[1];
+  }
+
+
+
+
+function failSilently(command) {
+  var result = wam.failsafe(command);
+  if (!result[0])
+    return null;
+  else
+    return result[1];
+  }
+

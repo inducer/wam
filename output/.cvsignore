@@ -1,0 +1,11 @@
+Makefile.in
+Makefile
+.deps
+.libs
+*.lo
+*.la
+*.bck
+markpng
+ripttf
+testsound
+testoutput

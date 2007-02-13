@@ -1,0 +1,25 @@
+<animation>
+  <!--
+    parameters used:
+    direction: degreees
+    -->
+  <images>
+    <dynimage name="rocket-01" src="rocket_01.png" rotate="$(direction)"/>
+    <dynimage name="rocket-02" src="rocket_02.png" rotate="$(direction)"/>
+    <dynimage name="rocket-03" src="rocket_03.png" rotate="$(direction)"/>
+  </images>
+  
+  <regexes>
+  </regexes>
+  
+  <script>
+    <label name="burn_loop"/>
+    <frame name="rocket-01"/>
+    <delay time="0.15"/>
+    <frame name="rocket-02"/>
+    <delay time="0.15"/>
+    <frame name="rocket-03"/>
+    <delay time="0.15"/>
+    <goto target="burn_loop"/>
+  </script>
+</animation>

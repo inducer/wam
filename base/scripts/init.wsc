@@ -1,0 +1,70 @@
+wam.execute("lib/error.wsc");
+wam.execute("lib/help.wsc");
+wam.execute("lib/quit.wsc");
+wam.execute("lib/audio.wsc");
+wam.execute("lib/menu.wsc");
+wam.execute("lib/ui_tools.wsc");
+wam.execute("lib/gameject.wsc");
+wam.execute("lib/lists.wsc");
+wam.execute("lib/binding.wsc");
+wam.execute("maintenance.wsc");
+wam.execute("menu_system.wsc");
+wam.execute("game.wsc");
+
+// ----------------------------------------------------------------------------
+// some default settings
+// ----------------------------------------------------------------------------
+wam.debuglevel("verbose");
+wam.console_keyrepeat(0.05);
+wam.console_keywait(0.25);
+wam.console_enable(false);
+
+// ----------------------------------------------------------------------------
+// create managers
+// ----------------------------------------------------------------------------
+wam.im_create("Mngr,Bind");
+wam.im_commit();
+
+// ----------------------------------------------------------------------------
+// create tool gamejects
+// ----------------------------------------------------------------------------
+wam.cron(30*1000,wam.res_cleanup);
+
+// ----------------------------------------------------------------------------
+// load library
+// ----------------------------------------------------------------------------
+failNoisily("wam.cm_load('libwam.so');");
+
+// ----------------------------------------------------------------------------
+// create console
+// ----------------------------------------------------------------------------
+wam.im_create("Disp,");
+
+// ----------------------------------------------------------------------------
+// startup
+// ----------------------------------------------------------------------------
+maintainToolGamejects();
+resetBindings();
+
+
+function a() {
+  wam.net_startmaster();
+  wam.sup_create_rounds("hallo",true);
+  }
+function b() {
+  wam.net_connect("wam://localhost");
+  }
+function ply(name) {
+  wam.sup_addplayer(name,"a","b","c");
+  }
+function s() {
+  wam.sup_start();
+  }
+function go()
+{
+  wam.sup_addplayer("Ballerbert","a","b","c");
+  wam.sup_addplayer("Hugobert","a","b","c");
+  wam.sup_start();
+}
+
+startMainMenu();

@@ -1,0 +1,37 @@
+addFunctionHelp("showMessageBox","show a message box");
+function showMessageBox(message,what_next) {
+  msgbox = new wMenu();
+
+  msgbox.addImage("exclamation.png");
+  msgbox.addSpacer(10);
+  
+  var current_line = "";
+  for (var i = 0;i < message.length;i++) {
+    var ch = message.substring(i,i+1);
+    if (ch == "\n") {
+      msgbox.addText(current_line);
+      current_line = "";
+      }
+    else if (ch == " ") {
+      if (current_line.length >= 35) {
+        msgbox.addText(current_line);
+        current_line = "";
+	}
+      else
+        current_line += ch;
+      }
+    else 
+      current_line += ch;
+    }
+  if (current_line.length)
+    msgbox.addText(current_line);
+  msgbox.addSpacer(10);
+  
+  function whatNext() {
+    msgbox.end();
+    what_next();
+    }
+  
+  msgbox.addButton("OK",whatNext);
+  msgbox.complete();
+  }

@@ -1,0 +1,19 @@
+teilbereichs-authoriative
+authoriative *nicht* teil des protokolls
+"ätsch"-pakete
+
+phasenfolge:
+  * partners->runInbound()
+    - tote verbindungen kicken
+    - inbound creations,deletions realisieren
+    - inbound statusdumps verteilen
+    - inbound updates verteilen
+  * collective outbound status erzeugen (safe und unsafe)
+    - creation/deletion backlog verpacken
+    - statusdumps für creation backlog verpacken
+    - backlogs löschen
+    - update requests verpacken
+  * partners->runOutbound(collective outbound status)
+    - komplette statusdumps schreiben, falls erf. (neue verbindungen)
+    - sonst collective outbound status verschicken
+  

@@ -1,0 +1,9 @@
+Makefile.in
+Makefile
+.deps
+.libs
+*.lo
+*.la
+*.bck
+*.bak
+wam-binary

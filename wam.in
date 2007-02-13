@@ -1,0 +1,65 @@
+#! /bin/sh
+# -----------------------------------------------------------------------------
+# WAM launcher
+# -----------------------------------------------------------------------------
+# (c) Team WAM 1999
+# -----------------------------------------------------------------------------
+
+# Determine base dir ----------------------------------------------------------
+
+WAM_BASEDIR=""
+WAM_BINARY="wam-binary"
+
+check_basedir() {
+  if [ "x$WAM_BASEDIR" != "x" ]; then
+    # we already know where we are
+    return
+    fi
+  if [ -d $1/base ]; then
+    WAM_BASEDIR="$1"
+    fi
+  }
+  
+if [ "x$1" != "x" ]; then
+  check_basedir $1
+  fi
+  
+if [ "x$WAM_BASEDIR" != "x" ]; then
+  shift
+  fi
+
+check_basedir .
+check_basedir @prefix@
+WAM_BIN_LOCATION=`dirname $0`
+check_basedir $WAM_BIN_LOCATION
+check_basedir ${WAM_BIN_LOCATION%/bin}
+check_basedir ${WAM_BIN_LOCATION%/bin/}
+
+if [ "x$WAM_BASEDIR" = "x" ]; then
+  echo Sorry, I was unable to find the WAM base directory.
+  echo You may pass it to me as the first argument if you know where it is.
+  exit 1
+  fi
+  
+WAM_COMPLETE_BASEDIR=`cd $WAM_BASEDIR &> /dev/null; pwd`
+
+# run WAM ---------------------------------------------------------------------
+if [ "x$LD_LIBRARY_PATH" = "x" ]; then
+  LD_LIBRARY_PATH="."
+else
+  LD_LIBRARY_PATH="$LD_LIBRARY_PATH:."
+  fi
+for dir in $WAM_BASEDIR/*/code; do
+  if [ "x$LD_LIBRARY_PATH" = "x" ]; then
+    LD_LIBRARY_PATH="$dir"
+  else
+    LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$dir"
+    fi
+  done
+export LD_LIBRARY_PATH
+
+if [ -x $WAM_BASEDIR/bin/$WAM_BINARY ]; then
+  $WAM_COMPLETE_BASEDIR/bin/$WAM_BINARY --base=$WAM_COMPLETE_BASEDIR "$@"
+else
+  $WAM_COMPLETE_BASEDIR/main/$WAM_BINARY --base=$WAM_COMPLETE_BASEDIR "$@"
+  fi

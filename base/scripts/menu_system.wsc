@@ -1,0 +1,105 @@
+function nop() { return; }
+var setupTeams = nop;
+
+
+
+// main menu ------------------------------------------------------------------
+function startMainMenu() {
+  function end_and(func) {
+    function inner() {
+      resetBindings();
+      killGamejectByFeatureSet("VerD");
+      menu.end();
+      func();
+      }
+    inner;
+    }
+
+  Music.repeatOne("attitude.it");
+  wam.im_create("VerD");
+
+  ensureGamejectExistence("Back");
+
+  wam.bind("escape",end_and(startQuitMenu));
+  
+  var menu = new wMenu();
+  menu.addButton("Start Game",end_and(startGame));
+  menu.addButton("Setup Teams",end_and(setupTeams));
+  menu.addButton("Game Options",end_and(startOptionsMenu));
+  menu.addButton("Credits",end_and(startCredits));
+  menu.addButton("Quit",end_and(startQuitMenu));
+  menu.addSpacer(30);
+  menu.addImage("logo.png");
+  menu.complete();
+  }
+
+
+
+// options menu  --------------------------------------------------------------
+function startOptionsMenu() {
+  var menu = new wMenu();
+
+  function end_and(func) {
+    function inner() {
+      resetBindings();
+      menu.end();
+      func();
+      }
+    inner;
+    }
+
+  wam.bind("escape",end_and(startMainMenu));
+
+  menu.addImage("menu_options.png");
+  menu.addSpacer(10);
+  menu.addButton("Control options",nop);
+  menu.addButton("Graphics options",nop);
+  menu.addButton("Sound options",nop);
+  menu.addSpacer(10);
+  menu.addButton("Back to Main Menu",end_and(startMainMenu));
+  menu.complete();
+  }
+
+
+
+// credits --------------------------------------------------------------------
+function startCredits() {
+  killGamejectByFeatureSet("FpsD");
+
+  function end() {
+    maintainToolGamejects();
+    resetBindings();
+    killGamejectByFeatureSet("Cred");
+    startMainMenu();
+    }
+
+  Music.repeatOne("clamberdown.xm");
+  wam.im_create("Cred");
+  wam.bind("space",end);
+  wam.bind("mouse1",end);
+  wam.bind("escape",end);
+  }
+
+
+
+
+// quit menu ------------------------------------------------------------------
+function startQuitMenu() {
+  var menu = new wMenu();
+  function end_and(func) {
+    function inner() {
+      resetBindings();
+      menu.end();
+      func();
+      }
+    inner;
+    }
+
+  wam.bind("escape",end_and(startMainMenu));
+
+  menu.addImage("menu_quit.png");
+  menu.addSpacer(10);
+  menu.addButton("Quit",end_and(quit));
+  menu.addButton("Back to Main Menu",end_and(startMainMenu));
+  menu.complete();
+  }

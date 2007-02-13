@@ -1,0 +1,43 @@
+class wMenu {
+  var Manager;
+  
+  constructor function wMenu() {
+    Manager = wam.menu_createmanager();
+    wam.im_commit();
+    }
+  function addButton(caption,func) {
+    wam.menu_addbutton(Manager,caption,func);
+    }
+  function addInput(caption,contents) {
+    return new wMenuTextInput(wam.menu_addinput(Manager,caption,contents));
+    }
+  function addText(caption) {
+    wam.menu_addtext(Manager,caption);
+    }
+  function addSpacer(size) {
+    wam.menu_addspacer(Manager,size);
+    }
+  function addImage(name) {
+    wam.menu_addimage(Manager,name);
+    }
+  function complete() {
+    wam.im_commit();
+    wam.menu_complete(Manager);
+    }
+  function end() {
+    wam.menu_end(Manager);
+    }
+  }
+
+
+
+
+class wMenuTextInput {
+  var Widget;
+  constructor function wMenuTextInput(widget) {
+    Widget = widget;
+    }
+  function get() {
+    return wam.menu_getinput(Widget);
+    }
+  }

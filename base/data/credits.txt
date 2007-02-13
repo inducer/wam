@@ -1,0 +1,172 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[bc]Team WAM
+
+[c]and
+
+[bc]iXiONmedia
+
+
+
+
+
+[c]present
+[c]a Free Software Game
+[ppppppp]
+
+
+
+
+[bc]WAM
+
+[c]whack-a-mole
+
+
+
+
+
+
+
+
+[b]Lead programming
+[r]Andreas Klöckner
+
+[b]Programming
+[r]Hendrik Dahlkamp
+[r]Hardy Kahl
+[r]Christian Plagemann
+
+[b]Graphics
+[r]Christian Plagemann
+[r]Andreas Klöckner
+
+[b]Specific Algorithms
+[r]Frank Eichelhardt
+
+[b]Music
+[r]reed/damage
+[r]synteesi/mfx
+[r]miklos/microsux
+[r]geniuz/language lab
+[r]nightwatch/language lab
+[r](used with permission)
+
+[b]Sound effects
+[r]Hendrik Dahlkamp
+
+[b]Accomodations
+[r]Wohngemeinschaft
+[r]"Die Sparsamen"
+[r]Karlsruhe, Germany
+
+
+
+[c]No pixels were hurt
+[c]in the creation of this
+[c]software.
+
+[c]WAM is environmentally friendly,
+[c]dolphin-safe and contains
+[c]neither CFCs nor conservating agents.
+[c]Keep out of reach of children.
+[c]May contain traces of peanuts.
+[c]Contains small parts. Not for children
+[c]under 3 years of age.
+[c]Handle with care. Do not drop.
+
+
+[c]WAM is based upon the
+[bc]WAM engine
+
+
+[c]WAM uses
+
+[b]Simple DirectMedia Layer
+[r]Sam Latinga
+[r]LokiGames, Inc.
+
+[b]smpeg
+[r]Sam Latinga
+[r]LokiGames, Inc.
+
+[b]libmikmod
+[r]Miodrag Vallat
+[r]and many others
+
+[b]SDLucid
+[r]Andreas Klöckner
+[r]Hardy Kahl
+
+[b]freetype
+[r]David Turner
+[r]Robert Wilhelm
+[r]Werner Lemberg
+
+[b]ixlib
+[r]Andreas Klöckner
+[r]Hardy Kahl
+
+
+[c]The WAM people would like to greet
+
+[c]Simon Kammerer
+[c](Da ist noch'n Essen drin, oder?)
+
+[c]Framerate Frank
+[c](Hast uns brav ertragen!)
+
+[c]Josie Walker
+[c]Andreas Vetter
+[c]Dirk Wäldin
+[c]Meline Seibold
+[c]Melanie Schienle
+[c]Simon Gemmrich
+[c]Robert Görke
+[c]Lawrence Teo
+[c]Stephan Plagemann
+[c]ABI 97 @ Friedrich-Wöhler
+[c]Die Temas
+
+
+
+[pppppppp]
+
+
+[c]The WAM homepage is at
+
+[bc]http://w-a-m.sourceforge.net/
+
+[c]WAM development is generously hosted
+[c]by SourceForge.
+
+
+
+
+[pppppppp]
+
+
+[c]WAM is proudly licensed under the
+
+[bc]GNU General Public License
+
+[c]and copyrighted by its authors.
+[c]See http://www.fsf.org/ for more
+[c]information on the GNU project.
+
+
+
+
+
+
