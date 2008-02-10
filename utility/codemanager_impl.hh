@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <string.h>
 #include <ixlib_re.hh>
+#include <ixlib_numconv.hpp>
 #include "utility/exgame.hh"
 #include "utility/debug.hh"
 #include "utility/filemanager.hh"

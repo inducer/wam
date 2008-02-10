@@ -123,10 +123,8 @@ void wDrawable::requestRedraw()
 
 
 // Template instantiation -----------------------------------------------------
-template region<TCoordinate>
-;
-template wPriorityManager<wDrawable>
-;
+template class region<TCoordinate>;
+template class wPriorityManager<wDrawable>;
 
 
 

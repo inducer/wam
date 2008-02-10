@@ -115,8 +115,7 @@ void wPersistentGameject::unregisterMe()
 
 
 // wPersistenceManager --------------------------------------------------------
-template wRegisteringManager<wPersistentGameject>
-;
+template class wRegisteringManager<wPersistentGameject>;
 
 
 

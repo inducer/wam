@@ -40,8 +40,7 @@ void wTickReceiver::unregisterMe()
 
 
 // Template instantiation -----------------------------------------------------
-template wRegisteringManager<wTickReceiver>
-;
+template class wRegisteringManager<wTickReceiver>;
 
 
 

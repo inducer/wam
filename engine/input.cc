@@ -142,14 +142,10 @@ wMouseEvent::wMouseEvent( SDL_MouseButtonEvent const &event )
 
 
 // Template instantiations ----------------------------------------------------
-template wRegisteringManager<wKeyboardInputListener>
-;
-template wRegisteringManager<wMouseInputListener>
-;
-template wPriorityManager<wKeyboardInputListener>
-;
-template wPriorityManager<wMouseInputListener>
-;
+template class wRegisteringManager<wKeyboardInputListener>;
+template class wRegisteringManager<wMouseInputListener>;
+template class wPriorityManager<wKeyboardInputListener>;
+template class wPriorityManager<wMouseInputListener>;
 
 
 

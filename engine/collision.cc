@@ -188,10 +188,8 @@ wCollidable::TFindGroundResult wCollidable::findGround( wGameVector &speculative
 
 
 // template instantiation -----------------------------------------------------
-template wRegisteringManager<wCollidable>
-;
-template wRegisteringManager<wShaped>
-;
+template class wRegisteringManager<wCollidable>;
+template class wRegisteringManager<wShaped>;
 
 
 

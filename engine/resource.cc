@@ -121,22 +121,14 @@ void registerResourceManagerCommands( wGame &g )
 
 
 // Template instantiation -----------------------------------------------------
-template wResourceManager<wImage, wImageDescriptor>
-;
-template wResourceManager<wShapeBitmap>
-;
-template wResourceManager<font>
-;
-template wResourceManager<audio_data>
-;
-template wStreamResourceManager<wImage>
-;
-template wStreamResourceManager<wShapeBitmap>
-;
-template wStreamResourceManager<font>
-;
-template wStreamResourceManager<audio_data>
-;
+template class wResourceManager<wImage, wImageDescriptor>;
+template class wResourceManager<wShapeBitmap>;
+template class wResourceManager<font>;
+template class wResourceManager<audio_data>;
+template class wStreamResourceManager<wImage>;
+template class wStreamResourceManager<wShapeBitmap>;
+template class wStreamResourceManager<font>;
+template class wStreamResourceManager<audio_data>;
 
 
 
@@ -353,11 +345,10 @@ audio_data *wSoundManager::load( wFileManager::wStream &file, string const &name
 
 
 
-template wImageHolder;
-template wShapeBitmapHolder;
-template wFontHolder;
-template wResourceHolder<audio_data, wSoundManager>
-;
+template class wResourceHolder<wImage, wImageManager, wImageDescriptor>;
+template class wResourceHolder<wShapeBitmap, wShapeBitmapManager>;
+template class wResourceHolder<font, wFontManager>;
+template class wResourceHolder<audio_data, wSoundManager>;
 
 
 

@@ -39,7 +39,7 @@ void wInstanceManager<Object, CodeManagerType>::destroyAll()
     InsertionRequests.pop_front();
   }
 
-  FOREACH( first, ObjectList, typename wObjectList )
+  FOREACH( first, this->ObjectList, typename Super::wObjectList )
   requestDestruction( *first );
 
   commit();
@@ -88,7 +88,7 @@ void wInstanceManager<Object, CodeManagerType>::insertObjectImmediate( Object *o
 template <class Object, class CodeManagerType>
 void wInstanceManager<Object, CodeManagerType>::requestDestruction( wFeatureSet const &features )
 {
-  FOREACH( first, ObjectList, typename wObjectList )
+  FOREACH( first, this->ObjectList, typename Super::wObjectList )
   if ( ( *first ) ->hasFeatures( features ) )
     requestDestruction( *first );
 }
@@ -145,7 +145,7 @@ void wInstanceManager<Object, CodeManagerType>::commit()
 template <class Object, class CodeManagerType>
 Object *wInstanceManager<Object, CodeManagerType>::getObjectByFeatureSet( wFeatureSet const &features )
 {
-  FOREACH_CONST( first, ObjectList, typename wObjectList )
+  FOREACH_CONST( first, this->ObjectList, typename Super::wObjectList )
   if ( ( *first ) ->hasFeatures( features ) )
     return * first;
 

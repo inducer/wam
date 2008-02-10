@@ -18,7 +18,7 @@ function resetBindings() {
   wam.bind_clear();
   wam.bind("lctrl q",		wam.game_quit);
   wam.bind("f1",		help);
-  wam.bind("f12",		toggle_console);
+  wam.bind("f2",		toggle_console);
   wam.bind("pageup",		console_up);
   wam.bind("pagedown",		console_down);
   }

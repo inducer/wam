@@ -57,11 +57,11 @@
 // Game exception -------------------------------------------------------------
 struct wGameException : public base_exception
 {
-  wGameException( TErrorCode error, string const &info, char *module = NULL,
+  wGameException( TErrorCode error, string const &info, const char *module = NULL,
                   TIndex line = 0 )
       : base_exception( error, info.c_str(), module, line, "GAME" )
   { }
-  virtual char *getText() const;
+  virtual const char *getText() const;
 };
 
 

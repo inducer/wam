@@ -12,7 +12,7 @@ function bindGameKeys()
   wam.bind( "delete", killHero );
   wam.bind( "pause", pause);
   wam.bind( "p", pause);
-  wam.bind( "f2", dumpCollisionBitmap);
+  wam.bind( "f3", dumpCollisionBitmap);
   wam.bind( "escape", startInGameMenu);
   wam.bind( "tab", cycleFocus );
 
@@ -52,7 +52,7 @@ function createGameEnvironment() {
 function startGame() {
   createGameEnvironment();
   
-  // wam.im_create("Hero");
+  wam.im_create("Hero");
   
   wam.em_genlandscape("two_islands.land");
   wam.em_gravity(400);

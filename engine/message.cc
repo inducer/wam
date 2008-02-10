@@ -103,8 +103,7 @@ IXLIB_GARBAGE_DECLARE_MANAGER( wMessageReceiver::wMessageReturn )
 
 
 // template instantiation -----------------------------------------------------
-template wRegisteringManager<wMessageReceiver>
-;
+template class wRegisteringManager<wMessageReceiver>;
 
 
 

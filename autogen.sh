@@ -2,9 +2,10 @@
 
 set -e
 
+libtoolize --force
 echo -n "wait: "
 echo -n "."
-aclocal
+aclocal -I $HOME/pool/share/aclocal
 echo -n "."
 autoheader
 echo -n "."

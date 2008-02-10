@@ -112,10 +112,8 @@ void registerInstanceManagerCommands( wGame &g )
 
 
 // Template instantiation -----------------------------------------------------
-template wRegisteringManager<wGameject>
-;
-template wInstanceManager<wGameject, wGameCodeManager>
-;
+template class wRegisteringManager<wGameject>;
+template class wInstanceManager<wGameject, wGameCodeManager>;
 
 
 

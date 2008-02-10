@@ -34,7 +34,7 @@
 
 
 
-static char *PlainText[] = {
+static const char *PlainText[] = {
                              TGAME_GENERAL, TGAME_NOTFOUND, TGAME_NOTYET, TGAME_SHAREDLIB, TGAME_NOSUCHID,
                              TGAME_DOUBLEID, TGAME_RESOURCENOTAVAIL,
                              TGAME_OVERFREEDRES, TGAME_INVALIDBITDEPTH, TGAME_IOERROR,
@@ -47,7 +47,7 @@ static char *PlainText[] = {
 
 
 // wGameExceptiong ------------------------------------------------------------
-char *wGameException::getText() const
+const char *wGameException::getText() const
 {
   return PlainText[ Error ];
 }

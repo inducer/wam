@@ -118,7 +118,7 @@ class wAnimator
         wCommand *getLastCommand();
     };
 
-    friend class wIf : public wCommand
+    class wIf : public wCommand
     {
       protected:
 	wCommand *IfPart, *ElsePart;
@@ -134,7 +134,7 @@ class wAnimator
 	void setNextCommand( wCommand *cmd );
     };
 
-    friend class wOnReturn : public wCommand
+    class wOnReturn : public wCommand
     {
       protected:
 	wCommand *Handler;
@@ -146,7 +146,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wPrioritySet : public wCommand
+    class wPrioritySet : public wCommand
     {
       protected:
 	wExecutionPriority Priority;
@@ -158,7 +158,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wGoto : public wCommand
+    class wGoto : public wCommand
     {
       protected:
 	string Label;
@@ -170,7 +170,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wGosub : public wCommand
+    class wGosub : public wCommand
     {
       protected:
 	string Label;
@@ -182,7 +182,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wReturn : public wCommand
+    class wReturn : public wCommand
     {
       protected:
 	bool KillDelay;
@@ -193,7 +193,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wDelay : public wCommand
+    class wDelay : public wCommand
     {
       protected:
 	double Seconds;
@@ -205,7 +205,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wFrame : public wCommand
+    class wFrame : public wCommand
     {
       protected:
 	string Name;
@@ -217,7 +217,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wStop : public wCommand
+    class wStop : public wCommand
     {
       public:
 	wStop( wAnimator &animator )
@@ -226,7 +226,7 @@ class wAnimator
 	wExecutionContext execute( double priority );
     };
 
-    friend class wSignal : public wCommand
+    class wSignal : public wCommand
     {
       protected:
 	string Name;
@@ -237,6 +237,16 @@ class wAnimator
 	  {}
 	wExecutionContext execute( double priority );
     };
+
+    friend class wIf;
+    friend class wOnReturn;
+    friend class wGoto;
+    friend class wGosub;
+    friend class wReturn;
+    friend class wDelay;
+    friend class wFrame;
+    friend class wStop;
+    friend class wSignal;
 
   public:
     wAnimator( wImageManager &imgmgr, istream &script );

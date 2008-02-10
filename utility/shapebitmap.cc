@@ -32,12 +32,9 @@ using namespace png;
 
 
 // template explicit instantiations -------------------------------------------
-template rectangle<int>
-;
-template polygon_segment<int>
-;
-template polygon<int>
-;
+template class rectangle<int> ;
+template class polygon_segment<int>;
+template class polygon<int>;
 
 
 

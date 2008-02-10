@@ -83,8 +83,7 @@ void registerGameCodeManagerCommands( wGame &g )
 
 
 // template instantiation -----------------------------------------------------
-template wCodeManager<wGameject, wGame>
-;
+template class wCodeManager<wGameject, wGame>;
 
 
 
