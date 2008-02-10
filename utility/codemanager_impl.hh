@@ -64,7 +64,8 @@ void wCodeManager<Object, MainClass>::loadLibrary( string const &pathname )
   if ( !handle )
     EXGAME_THROWINFO( ECGAME_SHAREDLIB, dlerror() )
 
-    ( void * ) initf = dlsym( handle, "wamInitializeModule" );
+    initf = reinterpret_cast<wLibraryInitFunction>(
+        dlsym( handle, "wamInitializeModule" ));
 
 #endif
  #endif

@@ -15,6 +15,9 @@ suggested configure line for Win32 systems:
 
 ./configure --host=i386-mingw32msvc
 
+To try out the game, hit "start game", then pull down the console with f2,
+then enter "a();", then "go();".
+
 Nomenclature:
 
 those are not "BITMAPS", those are "IMAGES".

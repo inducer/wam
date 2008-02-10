@@ -52,7 +52,7 @@ function createGameEnvironment() {
 function startGame() {
   createGameEnvironment();
   
-  wam.im_create("Hero");
+  //wam.im_create("Hero");
   
   wam.em_genlandscape("two_islands.land");
   wam.em_gravity(400);
@@ -95,7 +95,6 @@ function startInGameMenu() {
 
 
 
-/*
 // multiplayer backend --------------------------------------------------------
 function connect(hostname) {
   var result = wam.failsafe("wam.net_connect('wam://"+hostname+"');");
@@ -167,5 +166,3 @@ function endMultiPlayerGameMenu() {
   }
 
 
-
-*/

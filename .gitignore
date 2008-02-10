@@ -31,3 +31,6 @@ examples/example
 libwam.so*
 wam
 collisionbitmap.png
+markpng
+tags
+main/wam-binary

@@ -62,6 +62,7 @@ function s() {
   }
 function go()
 {
+  wam.im_create("Supv,");
   wam.sup_addplayer("Ballerbert","a","b","c");
   wam.sup_addplayer("Hugobert","a","b","c");
   wam.sup_start();
